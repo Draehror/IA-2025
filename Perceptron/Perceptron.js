@@ -4,10 +4,9 @@ class Perceptron {
 
     constructor(numberWeights) {
         this.weights = new Array(numberWeights);
-        this.weights.forEach((weight,i) =>{
-            this.weights[i] = random(-1,1);
-        });
-
+        for (let i = 0; i < this.weights.length; i++) {
+            this.weights[i] = random(-1,1);   
+        }
     }
 
     guess(inputs){
@@ -18,6 +17,13 @@ class Perceptron {
         });
 
         return sign(sum);
+    }
+    guessY(x){
+        const w0 = this.weights[0];
+        const w1 = this.weights[1];
+        const w2 = this.weights[2];
+
+        return -(w2/w1) - (w0/w1) * x;
     }
     train(inputs, target){
         const guess = this.guess(inputs);
