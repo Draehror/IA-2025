@@ -9,6 +9,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+    <div id="mydata"></div>
     <script>
         const xs = tf.tensor([0,1,2,3,4]);
         /* y = 1.2*x+5 */
@@ -31,23 +32,27 @@
                 result.data().then(y => {
                     xArr.push(x);
                     yArr.push(Number(y));
+                    
+                    const yCor = 1.2 * x +5;
+                    const diff = yCor - Number(y);
+                    console.log(`x: ${x} yP: ${y} yC: ${yCor} err: ${diff}`);
+                    
                     if(x == xMax){plot(xArr,yArr);}
                 });
             }
-            document.getElementById('message').style.display = "none";
+            document.getElementById('message').style.display="none";
         }
 
         function plot(xArr,yArr) {
             const data = [{x:xArr,y:yArr,mode:"markes",type:"scatter"}];
 
             const layout = {
-                xaxis: {range:[0,10]},
+                xaxis: {range: [0,10]},
                 yaxis: {range: [0,20]}
             };
 
-            Ploty.newPlot("mydata",data,layout);
+            Plotly.newPlot("mydata",data,layout);
         }
     </script>
-    <div id="mydata"></div>
 </body>
 </html>
