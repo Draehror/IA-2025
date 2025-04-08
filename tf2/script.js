@@ -39,7 +39,7 @@ async function run() {
         });
 
         const batchSize = 32;
-        const epochs = 50;
+        const epochs = 70;
 
         return await model.fit(inputs, labels, {
             batchSize,
@@ -67,9 +67,14 @@ async function run() {
 function createModel() {
     const model = tf.sequential();
     //camada de entrada
-    model.add(tf.layers.dense({inputShape: [1], units: 1, useBias: true}));
+    model.add(tf.layers.dense({inputShape: [1], units: 8, useBias: true}));
     //camada de saida
+    model.add(tf.layers.dense({units: 50, activation: "sigmoid", useBias: true}));
+    model.add(tf.layers.dense({units: 50, activation: "sigmoid", useBias: true}));
+    model.add(tf.layers.dense({units: 50, activation: "sigmoid", useBias: true}));
+    model.add(tf.layers.dense({units: 50, activation: "sigmoid", useBias: true}));
     model.add(tf.layers.dense({units: 1, useBias: true}));
+
     
     return model;
 }
