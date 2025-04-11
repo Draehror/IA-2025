@@ -1,4 +1,5 @@
 import tensorflow as tf
+import plotly.graph_objects as go
 
 #criar dados do treinamento
 
@@ -16,7 +17,7 @@ model.compile(loss="mean_squared_error", optimizer="sgd")
 
 #treine o modelo
 print("Model is Training!")
-model.fit(xs, ys, epochs=500)
+model.fit(xs, ys, epochs=50)
 
 #use o modelo
 def linear_reg():
@@ -33,15 +34,28 @@ def linear_reg():
         correct_arr.append(float(x * 1.2 + 5))
 
     display(x_arr, y_arr, correct_arr)
+    plot_results(x_arr, y_arr, correct_arr)
 
 def display(x_arr, y_arr, correct_arr):
     text = "Correct Predicted\n"
     for i in range(0,len(x_arr)):
         correct = correct_arr[i]
         predicted = y_arr[i]
-        text += f"{correct:.4f} {predicted:.4f}"
+        text += f"{correct:.4f} {predicted:.4f} \n"
 
     print(text)
+
+def plot_results(x_arr, y_arr, correct_arr):
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x_arr,y=correct_arr,mode="markers",name="Correct"))
+    fig.add_trace(go.Scatter(x=x_arr,y=y_arr,mode="markers",name="Predicted"))
+    fig.update_layout(
+        title="Linear Regression Prediction",
+        xaxis_title="X values",
+        yaxis_title="Y values"
+    )
+
+    fig.show()
 
 #Execute 
 linear_reg()
