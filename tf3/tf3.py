@@ -62,3 +62,6 @@ def build_model():
     return model
 
 model = build_model()
+model.summary()
+# Display training progress by printing a single dot for each epoch.
+print(model.summary())
