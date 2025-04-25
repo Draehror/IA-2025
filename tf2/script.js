@@ -39,7 +39,7 @@ async function run() {
         });
 
         const batchSize = 32;
-        const epochs = 70;
+        const epochs = 30;
 
         return await model.fit(inputs, labels, {
             batchSize,
