@@ -1,5 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
+import matplotlib.pyplot as plt
+from tensorflow.keras import layers
 
 import numpy as np
 
@@ -48,6 +50,8 @@ model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy']) 
 
+early_stopping = keras.callbacks.EarlyStopping(monitor='val_loss', patience=2)
+
 x_val = train_data[:10000]
 partial_x_train = train_data[10000:]
 
@@ -59,6 +63,28 @@ history = model.fit(partial_x_train,
                     epochs=40,
                     batch_size=512,
                     validation_data=(x_val, y_val),
-                    verbose=1)
+                    verbose=1,
+                    callbacks=[early_stopping])
 
-          
+results = model.evaluate(test_data, test_labels, verbose=2)
+#print(results)  # Avalia o modelo com os dados de teste
+
+history_dict = history.history
+#print(history_dict.keys())  # Mostra as chaves do dicionário de histórico
+# print(history_dict['accuracy'])  # Acurácia do treinamento
+
+acc = history_dict['accuracy']
+val_acc = history_dict['val_accuracy']
+loss = history_dict['loss']
+val_loss = history_dict['val_loss']
+
+epochs = range(1, len(acc) + 1)
+# "bo" é para a linha pontilhada azul, "b" é para a linha azul sólida
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
